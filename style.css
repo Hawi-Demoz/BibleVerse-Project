@@ -1,0 +1,35 @@
+ body {
+      font-family: Arial, sans-serif;
+      background:#7a8450;
+      text-align: center;
+      padding: 50px;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: auto;
+    }
+    #verse {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    #reference {
+      font-weight: bold;
+      color: #555;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #043222;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }

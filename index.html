@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Bible Verse</h1>
+  <p id="verse">Click to get a Bible verse.</p>
+  <p id="reference"></p>
+  <button onclick="getRandomVerse()">Get Random Verse</button>
+  <button onclick="shareToWhatsApp()">Share to WhatsApp</button>
+  <button onclick="shareToTelegram()">Share to Telegram</button>
+</div>
+
+<script>
+  // Bible structure (simplified for example; ideally you’d include all books/chapters)
+  const bibleBooks = {
+    "Genesis": 50,
+    "Exodus": 40,
+    "Psalms": 150,
+    "Proverbs": 31,
+    "Matthew": 28,
+    "Mark": 16,
+    "Luke": 24,
+    "John": 21,
+    "Romans": 16,
+    "1 Corinthians": 16,
+    "2 Corinthians": 13,
+    "Galatians": 6,
+    "Ephesians": 6,
+    "Philippians": 4,
+    "Colossians": 4,
+    "Revelation": 22
+  };
+
+  let currentVerse = '';
+  let currentRef = '';
+
+  async function getRandomVerse() {
+    const books = Object.keys(bibleBooks);
+    const book = books[Math.floor(Math.random() * books.length)];
+    const maxChapter = bibleBooks[book];
+    const chapter = Math.floor(Math.random() * maxChapter) + 1;
+    const verse = Math.floor(Math.random() * 20) + 1; // most chapters have at least 20 verses
+
+    const url = `https://bible-api.com/${encodeURIComponent(book)}%20${chapter}:${verse}`;
+    
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.text) {
+        document.getElementById('verse').textContent = data.text.trim();
+        document.getElementById('reference').textContent = data.reference;
+        currentVerse = data.text.trim();
+        currentRef = data.reference;
+      } else {
+        document.getElementById('verse').textContent = "Verse not found. Try again.";
+        document.getElementById('reference').textContent = "";
+      }
+    } catch (error) {
+      document.getElementById('verse').textContent = "Error fetching verse.";
+      document.getElementById('reference').textContent = "";
+    }
+  }
+
+  function shareToWhatsApp() {
+    const message = `${currentVerse} - ${currentRef}`;
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
+
+  function shareToTelegram() {
+    const message = `${currentVerse} - ${currentRef}`;
+    const url = `https://t.me/share/url?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
+</script>
+
+</body>
+</html>
